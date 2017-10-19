@@ -65,6 +65,17 @@ class Zhilian(object):
                 # 下一页
                 self.page = self.page + 1
                 time.sleep(2)
+                # 获取下一页前面一个li内容
+                pre_node = self.driver.find_element_by_xpath('//div[@class="pagesDown"]/ul/li[11]/a').text
+                bl = str.isdigit(pre_node)
+                print('倒数第一个页面为:%s, 是否为数字：%s, 即将爬取的页面为：%s ' % (pre_node, bl, self.page))
+                # 判断是否为数字字符串
+                if str.isdigit(pre_node):
+                    # 判断是否小于 self.page
+                    if int(pre_node) < self.page:
+                        # 遍历完毕，程序结束
+                        print('已经下载完成%d页，爬取结束！' % pre_node)
+                        break
             except Exception as e:
                 print(e)
                 break
